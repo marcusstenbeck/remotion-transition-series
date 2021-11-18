@@ -1,0 +1,35 @@
+{
+  "name": "remotion-transition-series",
+  "version": "0.0.4",
+  "description": "TransitionSeries component for Remotion",
+  "main": "lib",
+  "types": "lib",
+  "scripts": {
+    "build": "rm -rf lib && tsc",
+    "preview": "remotion preview preview/index.tsx",
+    "prepare": "npm run build"
+  },
+  "keywords": [
+    "remotion"
+  ],
+  "author": "Marcus Stenbeck <marcus.stenbeck@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "@remotion/cli": "^2.4.2",
+    "@types/react": "^17.0.27",
+    "@types/react-dom": "^17.0.9",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "remotion": "^2.4.2",
+    "typescript": "^4.4.3"
+  },
+  "peerDependencies": {
+    "react": ">=17.0.2",
+    "react-dom": ">=17.0.2",
+    "remotion": ">=2.4.2"
+  },
+  "files": [
+    "/lib",
+    "package.json"
+  ]
+}
