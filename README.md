@@ -28,6 +28,8 @@ See: https://www.remotion.dev/docs/series
 
 ### `<TransitionSeries.Transition />`
 
+For other props, see: https://www.remotion.dev/docs/sequence
+
 #### `transitionComponent`
 
 A component that renders the transition.
@@ -45,8 +47,6 @@ Props
   enteringElement: ReactNode;
 }) => ReactNode;
 ```
-
-For other props, see: https://www.remotion.dev/docs/sequence
 
 ## Preview
 
