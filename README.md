@@ -1,4 +1,4 @@
-# react-transition-series
+# remotion-transition-series
 
 A `TransitionSeries` component for [Remotion](https://www.remotion.dev/).
 
