@@ -20,34 +20,6 @@ They can be seen in a video here: https://twitter.com/marcusstenbeck/status/1446
 npm install remotion-transition-series
 ```
 
-## Docs
-
-### `<TransitionSeries>`
-
-See: https://www.remotion.dev/docs/series
-
-### `<TransitionSeries.Transition />`
-
-For other props, see: https://www.remotion.dev/docs/sequence
-
-#### `transitionComponent`
-
-A component that renders the transition.
-
-Props
-
-- `progress` between `0` to `1`
-- `exitingElement` is the previous sequence in the series
-- `enteringElement` is the next sequence in the series
-
-```
-(props: {
-  progress: number;
-  exitingElement: ReactNode;
-  enteringElement: ReactNode;
-}) => ReactNode;
-```
-
 ## Preview
 
 To start the Remotion Preview of run:
@@ -121,6 +93,34 @@ import { Easing } from 'remotion';
     <div>World</div>
   </TransitionSeries.Sequence>
 </TransitionSeries>;
+```
+
+## Docs
+
+### `<TransitionSeries>`
+
+See: https://www.remotion.dev/docs/series
+
+### `<TransitionSeries.Transition />`
+
+For other props, see: https://www.remotion.dev/docs/sequence
+
+#### `transitionComponent`
+
+A component that renders the transition.
+
+Props
+
+- `progress` between `0` to `1`
+- `exitingElement` is the previous sequence in the series
+- `enteringElement` is the next sequence in the series
+
+```
+(props: {
+  progress: number;
+  exitingElement: ReactNode;
+  enteringElement: ReactNode;
+}) => ReactNode;
 ```
 
 ## Contributing
