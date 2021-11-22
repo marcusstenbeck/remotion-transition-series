@@ -2,6 +2,8 @@
 
 A `TransitionSeries` component for [Remotion](https://www.remotion.dev/).
 
+[🔗 See included transitions](https://twitter.com/marcusstenbeck/status/1446420801918586888)
+
 Included in this repo are the following transitions:
 
 - Dissolve
@@ -12,7 +14,6 @@ Included in this repo are the following transitions:
 - LinearWipe
 - CircularWipe
 
-They can be seen in a video here: https://twitter.com/marcusstenbeck/status/1446420801918586888
 
 ## Setup
 
