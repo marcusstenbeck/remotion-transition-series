@@ -15,18 +15,18 @@
   "author": "Marcus Stenbeck <marcus.stenbeck@gmail.com>",
   "license": "ISC",
   "devDependencies": {
-    "@remotion/cli": "^2.4.2",
+    "@remotion/cli": "3.2.12",
     "@types/react": "^17.0.27",
     "@types/react-dom": "^17.0.9",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "remotion": "^2.4.2",
+    "remotion": "3.2.12",
     "typescript": "^4.4.3"
   },
   "peerDependencies": {
     "react": ">=17.0.2",
     "react-dom": ">=17.0.2",
-    "remotion": ">=2.4.2"
+    "remotion": ">=3.2.12"
   },
   "files": [
     "/lib",
