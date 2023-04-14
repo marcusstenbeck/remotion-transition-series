@@ -30,6 +30,7 @@
   },
   "files": [
     "/lib",
-    "package.json"
+    "package.json",
+    "README.md"
   ]
 }
