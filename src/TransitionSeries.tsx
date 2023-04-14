@@ -45,6 +45,17 @@ const TransitionSeries: TransitionSeriesComponentType = ({ children }) => {
           accumulatedDuration += duration;
         }
 
+        if (
+          !isInside(
+            transitionStartFrame,
+            transitionStartFrame + duration,
+            currentFrame
+          )
+        ) {
+          // we're not currently in this transition, so skip it
+          return null;
+        }
+
         return React.cloneElement(child, {
           ...child.props,
           // @ts-ignore
@@ -119,11 +130,16 @@ const TransitionSeries: TransitionSeriesComponentType = ({ children }) => {
 
       accumulatedDuration += duration;
 
+      if (isTransitioning) {
+        // if we're in a transition it's the transition component's
+        // responsibility to render the item
+        return null;
+      }
+
       return React.cloneElement(child, {
         ...child.props,
         // @ts-ignore
         from: startFrame,
-        isTransitioning,
       });
     });
 

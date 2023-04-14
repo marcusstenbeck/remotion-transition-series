@@ -26,19 +26,16 @@ const ChildWrapper: (props: {
 const TransitionSeriesSequence: React.FC<{
   durationInFrames: number;
   from?: number;
-  isTransitioning?: boolean;
   name?: string;
   children: TransitionSequenceChildrenFunction | React.ReactElement;
-}> = ({ name, children, durationInFrames, from = 0, isTransitioning }) => {
-  const body = isTransitioning ? null : typeof children === 'function' ? (
-    <ChildWrapper>{children}</ChildWrapper>
-  ) : (
-    children
-  );
-
+}> = ({ name, children, durationInFrames, from = 0 }) => {
   return (
     <Sequence name={name} from={from} durationInFrames={durationInFrames}>
-      {body}
+      {typeof children === 'function' ? (
+        <ChildWrapper>{children}</ChildWrapper>
+      ) : (
+        children
+      )}
     </Sequence>
   );
 };

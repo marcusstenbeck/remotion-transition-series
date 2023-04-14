@@ -10,14 +10,16 @@ export type TransitionImplementationProps = {
 
 export type TransitionImplementation = React.FC<TransitionImplementationProps>;
 
-const Transition = (props: {
+const Transition: React.FC<{
   durationInFrames: number;
   from?: number;
   name?: string;
   exitingElement?: ReactNode;
   enteringElement?: ReactNode;
-  transitionComponent?: (props: TransitionImplementationProps) => ReactNode;
-}) => {
+  transitionComponent?: (
+    props: TransitionImplementationProps
+  ) => React.ReactElement<any, any> | null;
+}> = (props) => {
   const {
     durationInFrames,
     from = 0,
