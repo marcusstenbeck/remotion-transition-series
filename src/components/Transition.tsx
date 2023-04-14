@@ -10,14 +10,14 @@ export type TransitionImplementationProps = {
 
 export type TransitionImplementation = React.FC<TransitionImplementationProps>;
 
-const Transition: React.FC<{
+const Transition = (props: {
   durationInFrames: number;
   from?: number;
   name?: string;
   exitingElement?: ReactNode;
   enteringElement?: ReactNode;
   transitionComponent?: (props: TransitionImplementationProps) => ReactNode;
-}> = (props) => {
+}) => {
   const {
     durationInFrames,
     from = 0,
@@ -36,7 +36,7 @@ const Transition: React.FC<{
   ) : (
     <Sequence
       // @ts-ignore
-      from={durationInFrames - exitingElement.props.durationInFrames}
+      from={from - durationInFrames}
       // @ts-ignore
       durationInFrames={exitingElement.props.durationInFrames}
     >
@@ -48,23 +48,19 @@ const Transition: React.FC<{
     enteringElement
   ) : (
     <Sequence
-      from={0}
+      from={from}
       // @ts-ignore
-      durationInFrames={enteringElement.props.durationInFrames}
+      durationInFrames={enteringElement.props.durationInFrames + 13}
     >
       {enteringElement}
     </Sequence>
   );
 
-  return (
-    <Sequence name={name} from={from} durationInFrames={durationInFrames}>
-      {transitionComponent({
-        progress,
-        enteringElement: enteringSequence,
-        exitingElement: exitingSequence,
-      })}
-    </Sequence>
-  );
+  return transitionComponent({
+    progress,
+    enteringElement: enteringSequence,
+    exitingElement: exitingSequence,
+  });
 };
 
 export default Transition;
