@@ -1,5 +1,11 @@
 import React from 'react';
-import { Composition, Easing, registerRoot } from 'remotion';
+import {
+  Composition,
+  Easing,
+  registerRoot,
+  useCurrentFrame,
+  useVideoConfig,
+} from 'remotion';
 import { TransitionImplementationProps } from '../src/components/Transition';
 import TransitionSeries from '../src/TransitionSeries';
 import { CircularWipe } from './CircularWipe';
@@ -11,15 +17,28 @@ import { Plate } from './Plate';
 import { Slide } from './Slide';
 import { SlidingDoors } from './SlidingDoors';
 
+const FrameCounter = () => {
+  const frame = useCurrentFrame();
+  const { durationInFrames } = useVideoConfig();
+
+  return (
+    <div style={{ position: 'absolute', left: 20, top: 20, fontSize: 20 }}>
+      {frame + 1}/{durationInFrames}
+    </div>
+  );
+};
+
 const Transition: React.FC<{
   transitionComponent: (
     props: TransitionImplementationProps
-  ) => React.ReactNode;
+  ) => React.ReactElement<any, any> | null;
 }> = ({ transitionComponent }) => {
   return (
     <TransitionSeries>
       <TransitionSeries.Sequence durationInFrames={60}>
-        <Plate style={{ backgroundColor: 'salmon', color: 'black' }}>A</Plate>
+        <Plate style={{ backgroundColor: 'salmon', color: 'black' }}>
+          <FrameCounter />A
+        </Plate>
       </TransitionSeries.Sequence>
 
       <TransitionSeries.Transition
@@ -27,8 +46,10 @@ const Transition: React.FC<{
         transitionComponent={transitionComponent}
       />
 
-      <TransitionSeries.Sequence durationInFrames={60}>
-        <Plate style={{ backgroundColor: 'indigo', color: 'white' }}>B</Plate>
+      <TransitionSeries.Sequence durationInFrames={80}>
+        <Plate style={{ backgroundColor: 'indigo', color: 'white' }}>
+          <FrameCounter />B
+        </Plate>
       </TransitionSeries.Sequence>
     </TransitionSeries>
   );
@@ -82,12 +103,13 @@ export const RemotionVideo: React.FC = () => {
         },
       ].map(({ name, component: tc }) => (
         <Composition
+          key={name}
           id={name}
           component={() => <Transition transitionComponent={tc} />}
           width={1920}
           height={1080}
           fps={30}
-          durationInFrames={90}
+          durationInFrames={110}
         />
       ))}
     </>
