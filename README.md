@@ -14,7 +14,6 @@ Included in this repo are the following transitions:
 - LinearWipe
 - CircularWipe
 
-
 ## Setup
 
 ```
@@ -101,6 +100,8 @@ import { Easing } from 'remotion';
 ### `<TransitionSeries>`
 
 See: https://www.remotion.dev/docs/series
+
+---
 
 ### `<TransitionSeries.Transition />`
 
