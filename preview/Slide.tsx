@@ -3,7 +3,7 @@ import { TransitionImplementationProps } from '../src/components/Transition';
 
 export const Slide: React.FC<
   TransitionImplementationProps & {
-    direction: 'up' | 'down' | 'left' | 'right';
+    direction?: 'up' | 'down' | 'left' | 'right';
   }
 > = ({
   direction = 'left',

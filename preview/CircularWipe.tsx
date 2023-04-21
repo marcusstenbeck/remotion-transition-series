@@ -3,7 +3,7 @@ import { useVideoConfig } from 'remotion';
 import { TransitionImplementationProps } from '../src/components/Transition';
 
 export const CircularWipe: React.FC<
-  TransitionImplementationProps & { direction: 'in' | 'out' }
+  TransitionImplementationProps & { direction?: 'in' | 'out' }
 > = ({
   direction = 'out',
   progress: inProgress,

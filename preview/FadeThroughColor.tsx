@@ -2,7 +2,7 @@ import React, { CSSProperties } from 'react';
 import { TransitionImplementationProps } from '../src/components/Transition';
 
 export const FadeThroughColor: React.FC<
-  TransitionImplementationProps & { color: CSSProperties['backgroundColor'] }
+  TransitionImplementationProps & { color?: CSSProperties['backgroundColor'] }
 > = ({
   color = 'black',
   progress,
