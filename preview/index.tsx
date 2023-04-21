@@ -55,53 +55,100 @@ const Transition: React.FC<{
   );
 };
 
+const WithFragment = () => {
+  const slides = [
+    { text: 'A', styles: { backgroundColor: 'salmon', color: 'black' } },
+    { text: 'B', styles: { backgroundColor: 'blue', color: 'white' } },
+    { text: 'C', styles: { backgroundColor: 'magenta', color: 'black' } },
+    { text: 'D', styles: { backgroundColor: 'indigo', color: 'white' } },
+  ];
+
+  return (
+    <TransitionSeries>
+      <TransitionSeries.Sequence durationInFrames={45}>
+        <Plate style={{ backgroundColor: 'white', color: 'black' }}>
+          <FrameCounter />
+          First
+        </Plate>
+      </TransitionSeries.Sequence>
+
+      <TransitionSeries.Transition durationInFrames={15} />
+
+      {slides.map((slide, index) => (
+        <React.Fragment key={`${JSON.stringify(slide)}${index}`}>
+          {index !== 0 && (
+            <TransitionSeries.Transition
+              durationInFrames={15}
+              transitionComponent={Slide}
+            />
+          )}
+          <TransitionSeries.Sequence durationInFrames={60}>
+            <Plate style={slide.styles}>
+              <FrameCounter />
+              {slide.text}
+            </Plate>
+          </TransitionSeries.Sequence>
+        </React.Fragment>
+      ))}
+
+      <TransitionSeries.Transition durationInFrames={15} />
+
+      <TransitionSeries.Sequence durationInFrames={60}>
+        <Plate style={{ backgroundColor: 'black', color: 'white' }}>
+          <FrameCounter />
+          Last
+        </Plate>
+      </TransitionSeries.Sequence>
+    </TransitionSeries>
+  );
+};
+
 const easeInOutExp = Easing.inOut(Easing.exp);
 
 export const RemotionVideo: React.FC = () => {
+  const transitionVariants: {
+    name: string;
+    component: (
+      props: TransitionImplementationProps
+    ) => React.ReactElement<any, any> | null;
+  }[] = [
+    { name: 'Dissolve', component: Dissolve },
+    { name: 'FadeThroughColor', component: FadeThroughColor },
+    {
+      name: 'Pan',
+      component: ({ progress, ...props }) => (
+        <Pan {...props} progress={easeInOutExp(progress)} />
+      ),
+    },
+    {
+      name: 'Slide',
+      component: ({ progress, ...props }) => (
+        <Slide {...props} progress={easeInOutExp(progress)} />
+      ),
+    },
+    {
+      name: 'SlidingDoors',
+      component: ({ progress, ...props }) => (
+        <SlidingDoors {...props} angle={70} progress={easeInOutExp(progress)} />
+      ),
+    },
+    {
+      name: 'LinearWipe',
+      component: ({ progress, ...props }) => (
+        <LinearWipe angle={70} {...props} progress={easeInOutExp(progress)} />
+      ),
+    },
+    {
+      name: 'CircularWipe',
+      component: ({ progress, ...props }) => (
+        <CircularWipe {...props} progress={easeInOutExp(progress)} />
+      ),
+    },
+  ];
+
   return (
     <>
-      {[
-        { name: 'Dissolve', component: Dissolve },
-        { name: 'FadeThroughColor', component: FadeThroughColor },
-        {
-          name: 'Pan',
-          component: ({ progress, ...props }) => (
-            <Pan {...props} progress={easeInOutExp(progress)} />
-          ),
-        },
-        {
-          name: 'Slide',
-          component: ({ progress, ...props }) => (
-            <Slide {...props} progress={easeInOutExp(progress)} />
-          ),
-        },
-        {
-          name: 'SlidingDoors',
-          component: ({ progress, ...props }) => (
-            <SlidingDoors
-              {...props}
-              angle={70}
-              progress={easeInOutExp(progress)}
-            />
-          ),
-        },
-        {
-          name: 'LinearWipe',
-          component: ({ progress, ...props }) => (
-            <LinearWipe
-              angle={70}
-              {...props}
-              progress={easeInOutExp(progress)}
-            />
-          ),
-        },
-        {
-          name: 'CircularWipe',
-          component: ({ progress, ...props }) => (
-            <CircularWipe {...props} progress={easeInOutExp(progress)} />
-          ),
-        },
-      ].map(({ name, component: tc }) => (
+      {transitionVariants.map(({ name, component: tc }) => (
         <Composition
           key={name}
           id={name}
@@ -112,6 +159,15 @@ export const RemotionVideo: React.FC = () => {
           durationInFrames={110}
         />
       ))}
+
+      <Composition
+        id="WithFragment"
+        component={WithFragment}
+        width={1920}
+        height={1080}
+        fps={30}
+        durationInFrames={270}
+      />
     </>
   );
 };

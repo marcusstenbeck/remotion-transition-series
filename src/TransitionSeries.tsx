@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { PropsWithChildren, useMemo } from 'react';
 import { useCurrentFrame } from 'remotion';
 import Sequence from './components/Sequence';
 import Transition from './components/Transition';
@@ -8,12 +8,12 @@ type TransitionSeriesComponents = {
   Transition: typeof Transition;
 };
 
-type TransitionSeriesChildtypes =
+type TransitionSeriesChildTypes =
   | React.ReactElement<typeof Sequence>
   | React.ReactElement<typeof Transition>;
 
 type TransitionSeriesComponentType = ((props: {
-  children: TransitionSeriesChildtypes | TransitionSeriesChildtypes[];
+  children: React.ReactNode | React.ReactNode[];
 }) => React.ReactElement | null) &
   TransitionSeriesComponents;
 
@@ -21,17 +21,48 @@ function isInside(start: number, end: number, value: number) {
   return value < end && value >= start;
 }
 
+type ReactChildArray = ReturnType<typeof React.Children.toArray>;
+
+const flattenFirstLevelFragments = (
+  children: React.ReactNode
+): ReactChildArray => {
+  const childrenArray = React.Children.toArray(children);
+  return childrenArray.reduce((flatChildren: ReactChildArray, child) => {
+    if ((child as React.ReactElement<unknown>).type === React.Fragment) {
+      return flatChildren.concat(
+        React.Children.toArray(
+          (child as React.ReactElement<PropsWithChildren<unknown>>).props
+            .children
+        )
+      );
+    }
+
+    flatChildren.push(child);
+    return flatChildren;
+  }, []);
+};
+
 const DEBUG = false;
 
 const TransitionSeries: TransitionSeriesComponentType = ({ children }) => {
   const currentFrame = useCurrentFrame();
 
   const visibleChildren = useMemo(() => {
-    const childArray = React.Children.toArray(children);
+    // Flatten the first level of React fragments
+    const childArray = flattenFirstLevelFragments(children);
 
     let accumulatedDuration = 0;
 
-    const activeChildren = React.Children.map(children, (child, i) => {
+    const activeChildren = React.Children.map(childArray, (child, i) => {
+      if (
+        !React.isValidElement(child) ||
+        !(child.type === Transition || child.type === Sequence)
+      ) {
+        throw new Error(
+          '<TransitionSeries/> can only have children of type: ReactFragment, TransitionSeries.Sequence, TransitionSeries.Transition'
+        );
+      }
+
       // @ts-ignore
       const offset = child.props.offset ?? 0;
       // @ts-ignore
@@ -65,8 +96,8 @@ const TransitionSeries: TransitionSeriesComponentType = ({ children }) => {
         });
       }
 
-      const nextChild = childArray[i + 1] as TransitionSeriesChildtypes;
-      const prevChild = childArray[i - 1] as TransitionSeriesChildtypes;
+      const nextChild = childArray[i + 1] as TransitionSeriesChildTypes;
+      const prevChild = childArray[i - 1] as TransitionSeriesChildTypes;
 
       if (prevChild && prevChild.type === Transition) {
         // @ts-ignore
@@ -138,6 +169,7 @@ const TransitionSeries: TransitionSeriesComponentType = ({ children }) => {
 
       return React.cloneElement(child, {
         ...child.props,
+        key: `${i}-${child.key}`,
         // @ts-ignore
         from: startFrame,
       });
