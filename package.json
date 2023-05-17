@@ -1,6 +1,6 @@
 {
   "name": "remotion-transition-series",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "TransitionSeries component for Remotion",
   "main": "lib",
   "types": "lib",
