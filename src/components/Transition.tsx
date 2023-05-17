@@ -33,26 +33,32 @@ const Transition: React.FC<{
 
   const progress = (currentFrame - from) / (durationInFrames - 1);
 
-  const exitingSequence = !exitingElement ? (
+  const exitingSequence = !React.isValidElement(exitingElement) ? (
     exitingElement
   ) : (
     <Sequence
-      // @ts-ignore
-      from={from - durationInFrames}
-      // @ts-ignore
-      durationInFrames={exitingElement.props.durationInFrames}
+      from={
+        from -
+        (exitingElement.props as { durationInFrames: number })
+          .durationInFrames +
+        durationInFrames
+      }
+      durationInFrames={
+        (exitingElement.props as { durationInFrames: number }).durationInFrames
+      }
     >
       {exitingElement}
     </Sequence>
   );
 
-  const enteringSequence = !enteringElement ? (
+  const enteringSequence = !React.isValidElement(enteringElement) ? (
     enteringElement
   ) : (
     <Sequence
       from={from}
-      // @ts-ignore
-      durationInFrames={enteringElement.props.durationInFrames + 13}
+      durationInFrames={
+        (enteringElement.props as { durationInFrames: number }).durationInFrames
+      }
     >
       {enteringElement}
     </Sequence>
