@@ -14,6 +14,10 @@ Included in this repo are the following transitions:
 - LinearWipe
 - CircularWipe
 
+> To use these transitions in your project, please copy the component into your own project.
+> 
+> The NPM package simply includes the core components and a basic `FadeTransition`.
+
 ## Setup
 
 ```
